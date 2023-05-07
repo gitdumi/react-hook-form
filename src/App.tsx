@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import FormInput from "./components/FormInput";
 import { schema } from "./lib/validation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export type FormData = {
   firstName: string | null;
@@ -29,28 +29,20 @@ const defaultValues: FormData = {
 };
 
 export default function App() {
-  const { register, handleSubmit, formState:{ errors, isValid }, reset, watch } = useForm<FormData>({
-    mode: 'onChange',
+  const { register, handleSubmit, formState:{ errors }, reset } = useForm<FormData>({
     resolver: yupResolver(schema),
     defaultValues
   });
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const inputProps = { register, errors, schema };
-  const onSubmit = (data: FormData) => alert(JSON.stringify(data, undefined, 2));
-
-  const first = watch('firstName')
-  const phone = watch('phone')
+  const onSubmit = (data: FormData) => { alert(JSON.stringify(data, undefined, 2)); setIsSubmitted(true)};
 
   useEffect(()=> {
-    if(window?.confirm) {
-      reset(defaultValues)
-    }
-  }, [window?.confirm])
-
-  useEffect(()=> {
-    console.log({isValid})
-    console.log({first})
-    console.log({phone})
-  }, [first, phone, isValid])
+   if (isSubmitted) {
+     reset(defaultValues);
+     setIsSubmitted(false);
+   }
+  }, [isSubmitted])
 
   return (
     <>
