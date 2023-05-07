@@ -1,7 +1,7 @@
 import type { FormData } from "../App";
 
 type FormInputProps = {
-  inputName: keyof FormData;
+  name: keyof FormData;
   inputType?: "text" | "email" | "password" | "number" | "checkbox" | "radio";
   register: any;
   errors: any;
@@ -16,7 +16,7 @@ const isRequired = (
 };
 
 const FormInput = ({
-  inputName,
+  name,
   inputType = "text",
   register,
   errors,
@@ -27,11 +27,11 @@ const FormInput = ({
       return (
         <>
           <div className="inline">
-            <input {...register(inputName)} type={inputType} />
-            {isRequired(schema, inputName) && <span>*</span>}
-            <label>{inputName}</label>
+            <input {...register(name)} type={inputType} />
+            {isRequired(schema, name) && <span>*</span>}
+            <label>{name}</label>
           </div>
-          {errors[inputName]?.message && <p>{errors[inputName]?.message}</p>}
+          {errors[name]?.message && <p>{errors[name]?.message}</p>}
         </>
       );
     case "radio":
@@ -39,27 +39,27 @@ const FormInput = ({
         <>
           <label>Favorite color</label>
           <div className="inline">
-            <input {...register(inputName)} type={inputType} value={"white"} />
+            <input {...register(name)} type={inputType} value={"white"} />
             <label>white</label>
           </div>
           <div className="inline">
-            <input {...register(inputName)} type={inputType} value={"black"} />
+            <input {...register(name)} type={inputType} value={"black"} />
             <label>black</label>
           </div>
-          {errors[inputName]?.message && <p>{errors[inputName]?.message}</p>}
+          {errors[name]?.message && <p>{errors[name]?.message}</p>}
         </>
       );
     default:
       return (
         <>
           <input
-            {...register(inputName)}
+            {...register(name)}
             placeholder={`${
-              isRequired(schema, inputName) ? "*" : ""
-            } ${inputName}`}
+              isRequired(schema, name) ? "*" : ""
+            } ${name}`}
             type={inputType}
           />
-          {errors[inputName]?.message && <p>{errors[inputName]?.message}</p>}
+          {errors[name]?.message && <p>{errors[name]?.message}</p>}
         </>
       );
   }
