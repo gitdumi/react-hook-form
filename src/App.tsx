@@ -30,6 +30,7 @@ const defaultValues: FormData = {
 
 export default function App() {
   const { register, handleSubmit, formState:{ errors }, reset } = useForm<FormData>({
+    mode: 'onBlur',
     resolver: yupResolver(schema),
     defaultValues
   });
